@@ -1,0 +1,177 @@
+twoowheelers=0
+fourwheelers=0
+vehicles=0
+name={}
+time=[]
+
+
+
+import matplotlib.pyplot as plt 
+from matplotlib import style
+
+def showgraph():        #A graph showing parking places as nodes.
+    style.use("ggplot")
+    x = [2,2,2,4,4,4,2]
+    y = [6,4,2,2,4,6,6] 
+    plt.text(2,6,'  Starting')
+    plt.text(2,4,'  A node(2,4)')
+    plt.text(2,2,'  B node(2,2)')
+    plt.text(4,2,'  C node(4,2)')
+    plt.text(4,4,'  D node(4,4)')
+    plt.text(4,6,'  E node(4,6)')
+    plt.title("Our Parking Spaces ")
+    plt.plot(x,y,"or") 
+    plt.xlabel('x - axis') 
+    plt.ylabel('y - axis') 
+    plt.show() 
+    
+    
+graph = {
+    'S' : ['A','B','C','D','E'],
+  'A' : ['B','S'],
+  'B' : ['C','A'],
+  'C' : ['D','B'],
+  'D' : ['E','C'],
+  'E' : ['S','D'],
+}
+
+visited = [] # List to keep track of visited nodes.
+queue = []     #Initialize a queue
+
+def bfs(visited, graph, node):
+  visited.append(node)
+  queue.append(node)
+
+  while queue:
+    s = queue.pop(0) 
+
+    for neighbour in graph[s]:
+      if neighbour not in visited:
+        visited.append(neighbour)
+        queue.append(neighbour)
+bfs(visited, graph,'S')        #Using BFS for visiting the various nodes.
+
+
+
+def parking():                #Assigning nodes or places to incoming vehicle.
+    print("\nAvailable parking spaces are :")
+    print(visited)
+    a=input("\n\nChoose any of the spaces from above except S:")
+    if a=='A' or a=='a' or a=='B' or a=='b' or a=='c' or a=='C' or a=='d' or a=='D' or a=='e' or a=='E':
+        visited.remove(a.upper())
+        print("\n\tPaking space alloted to you is :"+a.upper())
+    else:
+        print("\nEnter a valid parking space.")
+        parking()
+           
+
+def display():              #For displaying names of the customer.
+    print("\nName of the persons who had parked a vehicle :")
+    for i in name:
+        print(i+" -"+name[i])
+    
+    
+def twowheeler():           #For two-wheeler parking 
+    parking()
+    g=input("\n\nEnter any key value for your vehicle parking :")
+    n=input("Enter your name :")
+    k=input("Enter time in hours :")
+    name[g]=n
+    time.append(k)
+    global twoowheelers
+    twoowheelers+=1
+    global vehicles
+    vehicles+=1
+    print("Your details are added.")
+    
+def fourwheeler():         #For four-wheeler parking
+    parking()
+    g=input("\n\nEnter any key value for your vehicle parking :")
+    j=input("Enter your name :")
+    l=input("Enter time in hours :")
+    name[g]=j
+    time.append(l)
+    global fourwheelers
+    fourwheelers+=1
+    global vehicles
+    vehicles+=1
+    print("Your details are added.")
+    
+    
+def loginuser():         #For Security Purpose.
+    a=input("Enter the Username: ")
+    b=input("Enter the Password: ")
+    if(a=="admin" and b=="password"):
+        print("\n\t\t\t\tACCESS  GRANTED.")
+        showgraph()
+        options()
+    else:
+        print("\n\t\t\t\tACCESS  DENIED.")
+        print("\t\t\tEnter a valid username and password.")
+ 
+def outgoing():            #For outgoing vehicle or to exit.
+    print("\nThanks for parking your vehicle here.")
+    i=input("Enter your key value here for exit :")
+    l=name.keys()
+    if i not in l:
+        print("\nNo such key.Enter a valid key.")
+        outgoing()
+    else:
+        del name[i]
+        print("Exit Successfull.")
+
+    
+    
+def options():               #Varoius options to choose from.
+    x='y'
+    while x=='y':
+        print("\n\nChoose an option from the following: ")
+        print("\t1 - Two wheeler parking")
+        print("\t2 - Four wheeler parking")
+        print("\t3 - Displaying information")
+        print("\t4 - No. of Vehicles")
+        print("\t5 - No. of Two wheeler")
+        print("\t6 - No. of Four wheeler")
+        print("\t7 - Show graph of Parking spaces")
+        print("\t8 - Exit")
+        d=int(input("Enter your choice :"))
+        if d==1:
+            twowheeler()
+        elif d==2:
+            fourwheeler()
+        elif d==3:
+            display()
+        elif d==4:
+            print("\nNumber of vehicles are "+str(vehicles))
+        elif d==5:
+            print("\nNumber of two wheeler vehicles are "+str(twoowheelers))
+        elif d==6:
+            print("\nNumber of two wheeler vehicles are "+str(foourwheelers))
+        elif d==7:
+            showgraph()
+        elif d==8:
+            outgoing()
+        else:
+            print("\nChoose a valid option.")
+        print("\n\tDo you want to continue --")  
+        x=input("If yes then press y or else for cancel press n :")
+        if x=='y' or x=='Y' or x=='n' or x=='N':
+            continue
+        else:
+            print("Program exit.")
+
+            
+            
+print("\n\t\t*************************************************")
+print("\t\t*\t\t\t\t\t\t*")
+print("\t\t*\tWELCOME TO OUR PARKING SYSTEM\t\t*")
+print("\t\t*\t\t\t\t\t\t*")
+print("\t\t*\t\tcreated by\t\t\t*")
+print("\t\t*\tVinay,Shailesh,Ritik,Vaishnavi\t\t*")
+print("\t\t*\t\t\t\t\t\t*")
+print("\t\t*************************************************")
+c=input("\n\nPress p to continue :") 
+if c=='p'or c=='P':
+    loginuser()
+else:
+    print("Enter p only not anything else.")
